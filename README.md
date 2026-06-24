@@ -1,59 +1,70 @@
 # GenJess OS
 
-GenJess OS is the operating repo for AI-assisted outbound website work.
+GenJess OS is an AI-assisted outbound website operating system.
 
-The current goal is not to automate everything first. The current goal is to make the repo usable by an agent with GitHub access that receives a simple instruction such as:
+This repo already contains an app surface, API server, agent skills, and artifact workspaces. Do not treat it as an empty harness repo.
+
+## Start here
+
+Agents should read:
+
+1. `AGENTS.md`
+2. `ARCHITECTURE.md`
+3. `.agents/skills/find-skills/SKILL.md`
+4. The task-relevant skill files under `.agents/skills/`
+5. The relevant artifact/app folder before adding new files
+
+## Actual repo structure
 
 ```text
-Check this repo and build a website for the target.
+.agents/skills/                 Agent skill library
+artifacts/outbound-studio/      Main Outbound Studio frontend/admin surface
+artifacts/api-server/           API server with leads, runs, pipeline, Slack routes
+artifacts/mockup-sandbox/       Mockup/site preview sandbox
+artifacts/ios-launch-plan/      iOS launch planning artifact
+apps/                           New/experimental app packages
+lib/                            Shared API, DB, Zod, and React client libraries
+scripts/                        Repo scripts
+docs/build-tickets/             Infrastructure implementation tickets
+runtime/                        Runtime primitives
+integrations/                   Integration helpers
+attached_assets/                Uploaded/reference assets
 ```
 
-That agent should be able to answer:
+## Important distinction
 
-1. What am I allowed to do?
-2. Where do I save work?
-3. Which skills or references do I use?
-4. How do I qualify the prospect?
-5. How do I build the site?
-6. How do I audit the site?
-7. What output proves the work is done?
+`docs/build-tickets/` is for infrastructure work.
 
-## What exists now
+The agency workflow lives through:
 
-- `AGENTS.md` — primary instructions for coding/build agents.
-- `docs/agent-operating-manual.md` — step-by-step manual agent flow.
-- `docs/folder-map.md` — where files belong.
-- `docs/skills/skill-router.md` — which skill/reference to use for each task.
-- `docs/gates/prospect_qualification.md` — prospect qualification gate.
-- `docs/gates/design_audit.md` — design quality gate.
-- `docs/gates/site_audit.md` — site completion audit gate.
-- `docs/workflows/manual-website-build.md` — manual website build workflow.
-- `docs/build-tickets/` — implementation tickets, separated from operating instructions.
-- `sites/` — generated or hand-built website workspaces.
-- `clients/` — client/prospect-specific context, notes, and handoff artifacts.
+```text
+.agents/skills/
+artifacts/outbound-studio/
+artifacts/api-server/
+artifacts/mockup-sandbox/
+```
 
-## Current operating principle
+Do not create a second docs-only workflow when a real skill or artifact surface already exists.
 
-Manual first. Durable structure first. Automation later.
+## Current useful path
 
-Before building Slack integrations, job ledgers, prospect scrapers, or website builders, this repo must be understandable to a capable coding agent reading from the repository.
-
-## Do not do yet
-
-- Do not add mock prospects.
-- Do not create fake lead data.
-- Do not claim a prospect is qualified without evidence.
-- Do not build an automated website builder until the manual workflow works.
-- Do not treat Slack/job-ledger work as the actual agency workflow.
-
-## Minimum useful manual run
+For an agent asked to build or evaluate a site:
 
 ```text
 1. Read AGENTS.md.
-2. Read docs/agent-operating-manual.md.
-3. Read docs/workflows/manual-website-build.md.
-4. Create a prospect folder under clients/<prospect-slug>/.
-5. Create a site workspace under sites/<prospect-slug>/.
-6. Save source notes, design decisions, page files, and audit results in those folders.
-7. Report exactly what was built, where it was saved, what was audited, and what remains missing.
+2. Use .agents/skills/find-skills/SKILL.md to select the right skill.
+3. Use .agents/skills/outbound-studio/SKILL.md if the task is about the agency workflow.
+4. Use .agents/skills/frontend-design/SKILL.md, responsive-design, web-design-guidelines, UI/UX, SEO, and audit skills as needed.
+5. Inspect artifacts/outbound-studio before changing product/UI behavior.
+6. Inspect artifacts/api-server before changing backend/API behavior.
+7. Use artifacts/mockup-sandbox for preview/mockup work unless the existing app defines a better destination.
+8. Save final work where the existing artifact/app architecture expects it.
 ```
+
+## Do not do
+
+- Do not add mock prospects.
+- Do not invent business data.
+- Do not create parallel folders when an existing app/artifact/skill folder should be used.
+- Do not treat Slack/job-ledger infrastructure as the core agency workflow.
+- Do not build the website builder until the existing frontend, API, skill, and artifact structure is reconciled.
