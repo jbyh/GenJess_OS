@@ -1,0 +1,24 @@
+name: slack-to-outbound-batch
+version: 0.1.0
+entrypoint: slack-command
+status: queued
+next_gate: prospect_qualification
+
+allowed_command:
+  name: run-outbound-batch
+  example: /run-outbound-batch vertical=coffee city=Houston count=3 mode=research-only
+
+scope:
+  includes:
+    - validate Slack request
+    - parse Slack command
+    - create durable job
+    - write job.created event
+    - send Slack status reply
+    - write slack.reply.sent event
+  excludes:
+    - website builder
+    - verifier
+    - Vercel wiring
+    - outreach sending
+    - mock prospect data
