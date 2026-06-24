@@ -2,68 +2,73 @@
 
 You are operating inside GenJess OS.
 
-Your job is to turn a vague business instruction into a clean, saved, auditable artifact inside this repo.
+This repo is not empty. It already has an agent skill library, an Outbound Studio frontend, an API server, and artifact workspaces. Do not create a parallel project structure unless a build ticket explicitly asks for one.
 
-## Default instruction shape
+## First rule
 
-A user may say something as simple as:
+Inspect before adding.
 
-```text
-Check this repo and build a website for this target.
-```
+Before creating new files, check whether the existing structure already has a place for the work.
 
-Do not assume hidden context. Read the repo instructions first.
+## Required orientation
 
-## Required reading before website work
-
-Read these files before creating or editing site files:
+Read these first:
 
 1. `README.md`
-2. `docs/agent-operating-manual.md`
-3. `docs/folder-map.md`
-4. `docs/skills/skill-router.md`
-5. `docs/workflows/manual-website-build.md`
-6. `docs/gates/prospect_qualification.md`
-7. `docs/gates/design_audit.md`
-8. `docs/gates/site_audit.md`
+2. `ARCHITECTURE.md`
+3. `.agents/skills/find-skills/SKILL.md`
 
-## Core rule
+Then select task-specific skills from `.agents/skills/`.
 
-Manual quality beats premature automation.
+## Existing skill library
 
-Do not build orchestration, job ledgers, agents, Slack apps, prospect scrapers, or website-builder automation unless a specific build ticket asks for that exact thing.
+Use `.agents/skills/` as the canonical skill location.
 
-## Where to save work
-
-For every target, create:
+Relevant existing skills include:
 
 ```text
-clients/<prospect-slug>/
-sites/<prospect-slug>/
+.agents/skills/outbound-studio/
+.agents/skills/frontend-design/
+.agents/skills/responsive-design/
+.agents/skills/web-design-guidelines/
+.agents/skills/ui-ux-pro-max/
+.agents/skills/audit-website/
+.agents/skills/seo-audit/
+.agents/skills/wcag-audit-patterns/
+.agents/skills/firecrawl/
+.agents/skills/agent-tools/
+.agents/skills/architecture-patterns/
 ```
 
-Use lowercase kebab-case slugs.
+Do not use `docs/skills/` as the canonical skill system.
 
-Example:
+## Existing app/artifact structure
+
+Use the existing app surfaces before creating new ones:
 
 ```text
-clients/austin-roofing-co/
-sites/austin-roofing-co/
+artifacts/outbound-studio/      Main frontend/admin surface
+artifacts/api-server/           Backend/API routes for leads, runs, pipeline, Slack
+artifacts/mockup-sandbox/       Mockup and preview sandbox
+lib/                            Shared API, DB, Zod, and client libraries
 ```
 
-## Required target folder files
+## Website/outbound work
 
-Create these files for each real target:
+For outbound website work:
 
-```text
-clients/<prospect-slug>/brief.md
-clients/<prospect-slug>/source-notes.md
-clients/<prospect-slug>/qualification.md
-clients/<prospect-slug>/handoff.md
-sites/<prospect-slug>/README.md
-sites/<prospect-slug>/index.html
-sites/<prospect-slug>/audit.md
-```
+1. Use `.agents/skills/outbound-studio/` for agency workflow context.
+2. Use design and audit skills under `.agents/skills/`.
+3. Inspect `artifacts/outbound-studio/` for UI/admin behavior.
+4. Inspect `artifacts/api-server/` for backend/API behavior.
+5. Inspect `artifacts/mockup-sandbox/` for preview/mockup behavior.
+6. Only create new destination folders if the existing architecture does not already define where the work belongs.
+
+## Build tickets
+
+`docs/build-tickets/` contains infrastructure implementation tickets.
+
+A build ticket is not the agency workflow. It is not automatically the next product step.
 
 ## Evidence rule
 
@@ -71,36 +76,24 @@ Do not invent facts about a business.
 
 If a fact is not provided by the user or verified from a source, label it as an assumption or placeholder.
 
-No mock prospects. Placeholder copy is allowed only when clearly labeled as placeholder copy inside the site workspace.
-
-## Website build rule
-
-A website build must include:
-
-- A single clear business goal.
-- A clear above-the-fold offer.
-- Real or explicitly placeholder contact/action areas.
-- Mobile-first layout.
-- Basic accessibility checks.
-- Saved audit notes.
+No mock prospects.
 
 ## Completion report
 
 When done, report only:
 
-1. Target
-2. Files changed
-3. How to preview locally
-4. What was verified
-5. What is placeholder or missing
-6. Audit result
+1. Files changed
+2. Existing folders/skills used
+3. What was verified
+4. What remains missing
+5. How to run or preview, if applicable
 
 ## Stop conditions
 
 Stop and report instead of continuing if:
 
 - There is no target.
-- There is no allowed folder destination.
+- The existing destination for the work is unclear.
 - Required source context is missing.
 - A requested action would create fake business/prospect data.
-- The repo instructions conflict with a user instruction.
+- The repo instructions conflict with the user instruction.
